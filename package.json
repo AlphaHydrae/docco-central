@@ -11,6 +11,9 @@
     "type": "git",
     "url": "https://github.com/AlphaHydrae/docco-central"
   },
+  "engines": {
+    "node": "0.8.x"
+  },
   "dependencies": {
     "docco": "~0.3.0",
     "showdown": "~0.2.0",
