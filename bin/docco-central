@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var Runner = require(path.join(__dirname, '..', 'lib', 'runner'));
+
+new Runner().run()

@@ -14,14 +14,18 @@
 				<tbody>
 					<tr>
 						<th class="docs">
-              @@title
+              <%= title %>
               <div id="index">
                 <input type="text" class="search" placeholder="Search..." />
-                @@index
+                <ul>
+                <% _.each(files, function(file) { %>
+                  <li><span class="dirs"><%- file.dirname %>/</span><a href="<%- file.dirname %>/<%- file.docname %>"><%- file.basename %></a></li>
+                <% }); %>
+                </li>
               </div>
 						</th>
 						<td class="readme">
-							@@readme
+              <%= readme %>
 						</th>
 					</tr>
 				</tbody>
