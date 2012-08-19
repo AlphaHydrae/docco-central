@@ -1,6 +1,6 @@
 # docco-central
 
-**Documentation generator for whole projects based on Docco.**
+**Docco documentation for whole projects.**
 
 ## License (MIT)
 
