@@ -2,6 +2,15 @@
 
 **Docco documentation for whole projects.**
 
+## Installation
+
+    npm install -g docco-central
+
+## Usage
+
+    cd /path/to/your/project
+    docco-central lib/*.js
+
 ## License (MIT)
 
 Copyright (c) 2011 Alpha Hydrae
