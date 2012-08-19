@@ -4,7 +4,7 @@
   "keywords": [
     "documentation"
   ],
-  "version": "0.0.1",
+  "version": "0.1.1",
   "homepage": "https://github.com/AlphaHydrae/docco-central",
   "author": "Alpha Hydrae (hydrae.alpha@gmail.com)",
   "repository": {
@@ -13,6 +13,9 @@
   },
   "engines": {
     "node": "0.8.x"
+  },
+  "bin": {
+    "docco-central": "./bin/docco-central"
   },
   "dependencies": {
     "docco": "~0.3.0",
