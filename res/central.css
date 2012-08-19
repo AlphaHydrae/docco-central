@@ -99,15 +99,15 @@ table td {
     text-align: left;
   }
   td.readme {	
-  padding: 10px 25px 1px 50px;
-  vertical-align: top;
-  text-align: left;
+    padding: 10px 25px 1px 50px;
+    vertical-align: top;
+    text-align: left;
   }
-    .docs pre {
+    .docs pre, .readme pre {
       margin: 15px 0 15px;
       padding-left: 15px;
     }
-    .docs p tt, .docs p code {
+    .docs p tt, .docs p code, .readme p tt, .readme p code {
       background: #f8f8ff;
       border: 1px solid #dedede;
       font-size: 12px;
@@ -126,7 +126,7 @@ table td {
         opacity: 0;
         -webkit-transition: opacity 0.2s linear;
       }
-        td.docs:hover .pilcrow {
+        td.docs:hover .pilcrow, td.readme:hover .pilcrow {
           opacity: 1;
         }
   td.code, th.code {
