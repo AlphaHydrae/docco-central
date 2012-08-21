@@ -1,15 +1,19 @@
 # docco-central
 
-**Docco documentation for whole projects.**
+**[Docco](http://jashkenas.github.com/docco/) documentation for whole projects.**
 
 ## Installation
 
     npm install -g docco-central
 
+Docco requires [Pygments](http://pygments.org) for syntax highlighting. Install it with `sudo easy_install pygments` or follow the [installation documentation](http://pygments.org/docs/installation/).
+
 ## Usage
 
     cd /path/to/your/project
     docco-central lib/*.js
+
+Documentation is put in `docs` by default.
 
 ## License (MIT)
 
