@@ -26,7 +26,8 @@
     "rmdir": "~1.0.0",
     "temp": "~0.4.0",
     "clah": "~1.1.0",
-    "commander": "~1.0.1"
+    "commander": "~1.0.1",
+    "which": "~1.0.5"
   },
   "licenses": [
     {
