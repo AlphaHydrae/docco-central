@@ -29,6 +29,10 @@
     "commander": "~1.0.1",
     "which": "~1.0.5"
   },
+  "devDependencies": {
+    "jshint": "~0.8.0",
+    "jasmine-node": "~1.0.26"
+  },
   "licenses": [
     {
       "type": "MIT",
