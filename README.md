@@ -15,6 +15,16 @@ Docco requires [Pygments](http://pygments.org) for syntax highlighting. Install 
 
 Documentation is put in `docs` by default.
 
+## Options
+
+    Usage: docco-central [options] <file>...
+
+    Options:
+
+      -o, --output    change the output directory ("docs" by default)
+      -h, --help      show usage information
+      -V, --version   show version number
+
 ## License (MIT)
 
 Copyright (c) 2011 Alpha Hydrae
