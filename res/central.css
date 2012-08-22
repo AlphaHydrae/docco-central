@@ -41,7 +41,23 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #index ul .dirs {
-	color: #c0c0c0;
+	color: #777777;
+}
+
+#index ul li {
+  margin-top: 0.2em;
+}
+
+#index ul li a {
+  color: #00008b;
+}
+
+#index ul li a:hover {
+  text-decoration: none;
+}
+
+#index ul li.active {
+  background-color: #FFE4B5;
 }
 
 #container {
