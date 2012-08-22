@@ -3,6 +3,9 @@ $(function() {
 
   var index = $('#index');
   var search = index.find('.search');
+  var empty = index.find('.empty');
+
+  search.focus();
 
   search.keyup(function() {
 
@@ -18,6 +21,6 @@ $(function() {
       }
     });
 
-    /*console.log(index.find('ul li:visible').length);*/
+    empty.css('display', index.find('ul li:visible').length ? 'none' : 'block');
   });
 });

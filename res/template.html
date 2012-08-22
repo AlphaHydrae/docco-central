@@ -21,7 +21,8 @@
                 <% _.each(files, function(file) { %>
                   <li><span class="dirs"><%- file.dirname %>/</span><a href="<%- file.dirname %>/<%- file.docname %>"><%- file.basename %></a></li>
                 <% }); %>
-                </li>
+                </ul>
+                <p class="empty" style="display:none;">No match found.</p>
               </div>
             </th>
             <td class="readme">
