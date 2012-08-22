@@ -29,9 +29,9 @@ $(function() {
 
     if (e.keyCode == 40) {
       if (!currentLine) {
-        currentLine = index.find('ul li:first').addClass('active');
+        currentLine = index.find('ul li:first:visible').addClass('active');
       } else {
-        var nextLine = currentLine.next('li');
+        var nextLine = currentLine.next('li:visible');
         if (nextLine.length) {
           currentLine.removeClass('active');
           currentLine = nextLine.addClass('active');
@@ -40,9 +40,9 @@ $(function() {
       return false;
     } else if (e.keyCode == 38) {
       if (!currentLine) {
-        currentLine = index.find('ul li:last').addClass('active');
+        currentLine = index.find('ul li:last:visible').addClass('active');
       } else {
-        var previousLine = currentLine.prev('li');
+        var previousLine = currentLine.prev('li:visible');
         if (previousLine.length) {
           currentLine.removeClass('active');
           currentLine = previousLine.addClass('active');
