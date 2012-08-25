@@ -1,9 +1,9 @@
 source $HOME/.screenrc
 
 screen -t vim 0 $EDITOR -c GG
-screen -t bin 1
+screen -t zsh 1
+screen -t bin 2
 stuff "./bin/docco-central lib/**/*.js"
-screen -t spec 2
+screen -t spec 3
 stuff "rake spec"
-screen -t zsh 3
 select vim
