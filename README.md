@@ -22,6 +22,7 @@ Documentation is put in `docs` by default.
     Options:
 
       -o, --output    change the output directory ("docs" by default)
+      -q, --quiet     silence console logs
       -h, --help      show usage information
       -V, --version   show version number
 
