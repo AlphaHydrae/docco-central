@@ -19,7 +19,7 @@
                 <input type="text" class="search" placeholder="Search..." />
                 <ul>
                 <% _.each(files, function(file) { %>
-                  <li><span class="dirs"><%- file.dirname %>/</span><a href="<%- file.dirname %>/<%- file.docname %>"><%- file.basename %></a></li>
+                  <li><a href="<%- file.docFile %>"><%- file.srcFile %></a></li>
                 <% }); %>
                 </ul>
                 <p class="empty" style="display:none;">No match found.</p>
