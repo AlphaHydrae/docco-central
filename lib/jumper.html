@@ -1,0 +1,86 @@
+<!DOCTYPE html>  <html> <head>   <title>jumper.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>          <div id="jump_to">
+  Jump To &hellip;
+  <div id="jump_wrapper">
+    <div id="jump_page">
+      
+        <a class="source" href="..&#x2F;index.html">index.html</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;central.html">lib&#x2F;central.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;checker.html">lib&#x2F;checker.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;front.html">lib&#x2F;front.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;generator.html">lib&#x2F;generator.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;jumper.html">lib&#x2F;jumper.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;logger.html">lib&#x2F;logger.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;runner.html">lib&#x2F;runner.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;utils.html">lib&#x2F;utils.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;sub&#x2F;sample.html">lib&#x2F;sub&#x2F;sample.js</a>
+      
+    </div>
+  </div>
+</div>
+<table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               jumper.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>... is missing some documentation.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;underscore&#39;</span><span class="p">),</span>
+    <span class="nx">Class</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;clah&#39;</span><span class="p">),</span>
+    <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">),</span>
+    <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">Class</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+
+  <span class="nx">init</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">srcFiles</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">srcFiles</span> <span class="o">=</span> <span class="nx">srcFiles</span><span class="p">;</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">resDir</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;res&#39;</span><span class="p">);</span>
+  <span class="p">},</span>
+
+  <span class="nx">menu</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fromSrcFile</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nx">files</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">files</span><span class="p">(</span><span class="nx">fromSrcFile</span><span class="p">)</span>
+    <span class="p">};</span>
+
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">resDir</span><span class="p">,</span> <span class="s1">&#39;menu.html&#39;</span><span class="p">),</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">html</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">callback</span><span class="p">(</span><span class="kc">undefined</span><span class="p">,</span> <span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="nx">html</span><span class="p">,</span> <span class="nx">data</span><span class="p">));</span>
+    <span class="p">});</span>
+  <span class="p">},</span>
+
+  <span class="nx">docFile</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">srcFile</span><span class="p">,</span> <span class="nx">fromSrcFile</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">depth</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">depth</span><span class="p">(</span><span class="nx">fromSrcFile</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">docFile</span> <span class="o">=</span> <span class="nx">srcFile</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\..*$/</span><span class="p">,</span> <span class="s1">&#39;.html&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">back</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">depth</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">back</span><span class="p">,</span> <span class="nx">docFile</span><span class="p">);</span>
+  <span class="p">},</span>
+
+  <span class="nx">files</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fromSrcFile</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">files</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">srcFiles</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">fileData</span><span class="p">,</span> <span class="nx">fromSrcFile</span><span class="p">));</span>
+    <span class="nx">files</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">fileData</span><span class="p">(</span><span class="nx">fromSrcFile</span><span class="p">,</span> <span class="s1">&#39;index.html&#39;</span><span class="p">));</span>
+    <span class="k">return</span> <span class="nx">files</span><span class="p">;</span>
+  <span class="p">},</span>
+
+  <span class="nx">fileData</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fromSrcFile</span><span class="p">,</span> <span class="nx">srcFile</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="nx">srcFile</span><span class="o">:</span> <span class="nx">srcFile</span><span class="p">,</span>
+      <span class="nx">docFile</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">docFile</span><span class="p">(</span><span class="nx">srcFile</span><span class="p">,</span> <span class="nx">fromSrcFile</span><span class="p">)</span>
+    <span class="p">};</span>
+  <span class="p">},</span>
+
+  <span class="nx">depth</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">srcFile</span><span class="p">)</span> <span class="p">{</span>
+    
+    <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">dir</span> <span class="o">=</span> <span class="nx">srcFile</span><span class="p">;</span>
+    <span class="k">do</span> <span class="p">{</span>
+      <span class="nx">dir</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">dirname</span><span class="p">(</span><span class="nx">dir</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="o">++</span><span class="nx">d</span> <span class="o">&lt;</span> <span class="mi">100</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">dir</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/^(\.|\/)$/</span><span class="p">));</span>
+
+    <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

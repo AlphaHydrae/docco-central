@@ -1,87 +1,90 @@
-<!DOCTYPE html>  <html> <head>   <title>generator.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               generator.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>... is missing some documentation.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;underscore&#39;</span><span class="p">),</span>
-    <span class="nx">async</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;async&#39;</span><span class="p">),</span>
+<!DOCTYPE html>  <html> <head>   <title>generator.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>          <div id="jump_to">
+  Jump To &hellip;
+  <div id="jump_wrapper">
+    <div id="jump_page">
+      
+        <a class="source" href="..&#x2F;index.html">index.html</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;central.html">lib&#x2F;central.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;checker.html">lib&#x2F;checker.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;front.html">lib&#x2F;front.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;generator.html">lib&#x2F;generator.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;jumper.html">lib&#x2F;jumper.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;logger.html">lib&#x2F;logger.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;runner.html">lib&#x2F;runner.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;utils.html">lib&#x2F;utils.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;sub&#x2F;sample.html">lib&#x2F;sub&#x2F;sample.js</a>
+      
+    </div>
+  </div>
+</div>
+<table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               generator.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>... is missing some documentation.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">async</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;async&#39;</span><span class="p">),</span>
     <span class="nx">Class</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;clah&#39;</span><span class="p">),</span>
-    <span class="nx">exec</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;child_process&#39;</span><span class="p">).</span><span class="nx">exec</span><span class="p">,</span>
+    <span class="nx">docco</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;docco&#39;</span><span class="p">),</span>
     <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">),</span>
     <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">),</span>
-    <span class="nx">rmdir</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;rmdir&#39;</span><span class="p">),</span>
-    <span class="nx">temp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;temp&#39;</span><span class="p">),</span>
     <span class="nx">utils</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./utils&#39;</span><span class="p">);</span>
 
 <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">Class</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
 
-  <span class="nx">init</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">srcFile</span><span class="p">,</span> <span class="nx">targetDir</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">init</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">workingDir</span><span class="p">,</span> <span class="nx">srcFile</span><span class="p">,</span> <span class="nx">targetDir</span><span class="p">,</span> <span class="nx">jumper</span><span class="p">,</span> <span class="nx">logger</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">workingDir</span> <span class="o">=</span> <span class="nx">workingDir</span><span class="p">;</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">srcFile</span> <span class="o">=</span> <span class="nx">srcFile</span><span class="p">;</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">targetDir</span> <span class="o">=</span> <span class="nx">targetDir</span><span class="p">;</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">jumper</span> <span class="o">=</span> <span class="nx">jumper</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">logger</span> <span class="o">=</span> <span class="nx">logger</span><span class="p">;</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">docDir</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">targetDir</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">dirname</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">srcFile</span><span class="p">));</span>
   <span class="p">},</span>
 
-  <span class="nx">run</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">run</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Each documentation file is moved to the same relative path as its
+source file. That way it reflects the original project structure.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">utils</span><span class="p">.</span><span class="nx">mkdirpSync</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">docDir</span><span class="p">);</span>
 
-    <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
-    <span class="nx">async</span><span class="p">.</span><span class="nx">series</span><span class="p">([</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">makeTmpDir</span><span class="p">),</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">generateDoc</span><span class="p">),</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">moveToTarget</span><span class="p">)</span>
-    <span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">targetFile</span><span class="p">);</span>
-      <span class="nx">self</span><span class="p">.</span><span class="nx">cleanup</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
-    <span class="p">});</span>
-  <span class="p">},</span>
-
-  <span class="nx">cleanup</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">tmpDir</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">();</span>
-    <span class="nx">rmdir</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">tmpDir</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">callback</span><span class="p">();</span>
-    <span class="p">});</span>
-  <span class="p">},</span>
-
-  <span class="nx">moveToTarget</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="kd">var</span> <span class="nx">docDir</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">tmpDir</span><span class="p">,</span> <span class="s1">&#39;docs&#39;</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">docFile</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">docDir</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">basename</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">srcFile</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\..*$/</span><span class="p">,</span> <span class="s1">&#39;.html&#39;</span><span class="p">));</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">styleFile</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">docDir</span><span class="p">,</span> <span class="s1">&#39;docco.css&#39;</span><span class="p">);</span>
-
-    <span class="k">this</span><span class="p">.</span><span class="nx">targetFile</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">targetDir</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">basename</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">docFile</span><span class="p">));</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">targetStyleFile</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">targetDir</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">basename</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">styleFile</span><span class="p">));</span>
-
-    <span class="nx">async</span><span class="p">.</span><span class="nx">parallel</span><span class="p">([</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">moveDocToTarget</span><span class="p">),</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">moveStyleToTarget</span><span class="p">)</span>
+    <span class="nx">async</span><span class="p">.</span><span class="nx">waterfall</span><span class="p">([</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">buildMenu</span><span class="p">),</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nb">document</span><span class="p">),</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">insertMenu</span><span class="p">),</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">log</span><span class="p">)</span>
     <span class="p">],</span> <span class="nx">callback</span><span class="p">);</span>
   <span class="p">},</span>
 
-  <span class="nx">moveDocToTarget</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">utils</span><span class="p">.</span><span class="nx">copyFile</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">docFile</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">targetFile</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+  <span class="nx">buildMenu</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">jumper</span><span class="p">.</span><span class="nx">menu</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">srcFile</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
   <span class="p">},</span>
 
-  <span class="nx">moveStyleToTarget</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">fs</span><span class="p">.</span><span class="nx">existsSync</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">targetStyleFile</span><span class="p">))</span> <span class="p">{</span>
-      <span class="nx">utils</span><span class="p">.</span><span class="nx">copyFile</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">styleFile</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">targetStyleFile</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="nx">callback</span><span class="p">();</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-
-  <span class="nx">buildCommand</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">docco</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;node_modules&#39;</span><span class="p">,</span> <span class="s1">&#39;docco&#39;</span><span class="p">,</span> <span class="s1">&#39;bin&#39;</span><span class="p">,</span> <span class="s1">&#39;docco&#39;</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nx">docco</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">srcFile</span><span class="p">;</span>
-  <span class="p">},</span>
-
-  <span class="nx">generateDoc</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">exec</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">buildCommand</span><span class="p">(),</span> <span class="p">{</span>
-      <span class="nx">cwd</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">tmpDir</span><span class="p">,</span>
-      <span class="nx">encoding</span><span class="o">:</span> <span class="s1">&#39;utf-8&#39;</span>
-    <span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+  <span class="nb">document</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">menu</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">docco</span><span class="p">.</span><span class="nb">document</span><span class="p">([</span> <span class="k">this</span><span class="p">.</span><span class="nx">srcFile</span> <span class="p">],</span> <span class="p">{</span> <span class="nx">output</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">docDir</span> <span class="p">},</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">callback</span><span class="p">(</span><span class="kc">undefined</span><span class="p">,</span> <span class="nx">menu</span><span class="p">);</span>
     <span class="p">});</span>
   <span class="p">},</span>
 
-  <span class="nx">makeTmpDir</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
-    <span class="nx">temp</span><span class="p">.</span><span class="nx">mkdir</span><span class="p">(</span><span class="s1">&#39;docco-central&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">tmpDir</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">self</span><span class="p">.</span><span class="nx">tmpDir</span> <span class="o">=</span> <span class="nx">tmpDir</span><span class="p">;</span>
-      <span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+  <span class="nx">insertMenu</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">menu</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">targetFile</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">targetFile</span><span class="p">();</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">targetFile</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">contents</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+      <span class="nx">contents</span> <span class="o">=</span> <span class="nx">contents</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/&lt;table/</span><span class="p">,</span> <span class="nx">menu</span> <span class="o">+</span> <span class="s1">&#39;&lt;table&#39;</span><span class="p">);</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span><span class="p">(</span><span class="nx">targetFile</span><span class="p">,</span> <span class="nx">contents</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
     <span class="p">});</span>
+  <span class="p">},</span>
+
+  <span class="nx">log</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;- &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">targetFile</span><span class="p">());</span>
+    <span class="nx">callback</span><span class="p">();</span>
+  <span class="p">},</span>
+
+  <span class="nx">targetFile</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">docDir</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">basename</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">srcFile</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\..*$/</span><span class="p">,</span> <span class="s1">&#39;.html&#39;</span><span class="p">));</span>
   <span class="p">}</span>
 <span class="p">});</span>
 
