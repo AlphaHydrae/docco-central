@@ -1,6 +1,8 @@
 # docco-central
 
-**[Docco](http://jashkenas.github.com/docco/) documentation for whole projects.**
+**[Docco](http://jashkenas.github.com/docco/) 0.4.0 documentation for whole projects.**
+
+Check out [docco-central documenting itself](http://alphahydrae.github.com/docco-central/).
 
 ## Installation
 
@@ -19,12 +21,21 @@ Documentation is put in `docs` by default.
 
     Usage: docco-central [options] <file>...
 
-    Options:
+    GENERAL OPTIONS
+      -o, --output [path]      change the output directory ("docs" by default)
+      -q, --quiet              silence console logs
+      -h, --help               show usage information
+      -V, --version            show version number
 
-      -o, --output    change the output directory ("docs" by default)
-      -q, --quiet     silence console logs
-      -h, --help      show usage information
-      -V, --version   show version number
+    DOCCO OPTIONS
+      -c, --css [file]       use a custom CSS file for Docco pages
+      -t, --template [file]  use a custom .jst template for Docco pages
+
+    DOCCO CENTRAL OPTIONS
+      -r, --readme [file]       change the readme file ("README.md" by default)
+      -i, --indexReadme [file]  add content above the index (optional, "INDEX.md" by default)
+      --title [string]          change the title and window title ("Doc Index" by default)
+      --windowTitle [string]    change the window title (same as the title by default)
 
 ## License (MIT)
 

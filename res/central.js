@@ -15,7 +15,7 @@ $(function() {
 
       var current = $(this);
       var contents = current.text();
-      if (contents.indexOf(q) >= 0) {
+      if (contents.toLowerCase().indexOf(q.toLowerCase()) >= 0) {
         current.css('display', 'block');
       } else {
         current.css('display', 'none');
