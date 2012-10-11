@@ -1,1 +1,1 @@
-This documentation index page was generated from the project's list of source files and its `README.md`. This paragraph was taken from `INDEX.md`. Check out the readme on the right to find out how to customize your documentation.
+Annotated source index generated from the project's source files and its `README.md`. This paragraph was taken from `INDEX.md`. Check out the readme on the right to find out how to customize your documentation.

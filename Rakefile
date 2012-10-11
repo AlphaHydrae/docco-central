@@ -62,7 +62,7 @@ end
 
 # version tasks
 RakeVersion::Tasks.new do |v|
-  v.copy 'package.json', 'INDEX.md'
+  v.copy 'package.json', 'INDEX.md', '.docco-central.json'
 end
 
 task :validate_presence_of_deps do |t|
