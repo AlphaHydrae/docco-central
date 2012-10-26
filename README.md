@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/AlphaHydrae/docco-central.png)](http://travis-ci.org/AlphaHydrae/docco-central)
 # docco-central
 
 **[Docco](http://jashkenas.github.com/docco/) 0.4.0 documentation for whole projects.**
