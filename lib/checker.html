@@ -19,9 +19,9 @@
       
         <a class="source" href="..&#x2F;lib&#x2F;runner.html">lib&#x2F;runner.js</a>
       
-        <a class="source" href="..&#x2F;lib&#x2F;utils.html">lib&#x2F;utils.js</a>
-      
         <a class="source" href="..&#x2F;lib&#x2F;sub&#x2F;sample.html">lib&#x2F;sub&#x2F;sample.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;utils.html">lib&#x2F;utils.js</a>
       
     </div>
   </div>
@@ -44,7 +44,8 @@
       <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">checkPygmentize</span><span class="p">),</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">checkOutputDir</span><span class="p">),</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">checkFiles</span><span class="p">),</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">checkReadme</span><span class="p">)</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">checkReadme</span><span class="p">),</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">checkIndexReadme</span><span class="p">)</span>
     <span class="p">],</span> <span class="nx">callback</span><span class="p">);</span>
   <span class="p">},</span>
 
@@ -70,13 +71,10 @@
 
   <span class="nx">checkFiles</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
     
+    <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
     <span class="kd">var</span> <span class="nx">tasks</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">central</span><span class="p">.</span><span class="nx">srcFiles</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">srcFile</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fileCallback</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">fs</span><span class="p">.</span><span class="nx">stat</span><span class="p">(</span><span class="nx">srcFile</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">stats</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">fileCallback</span><span class="p">(</span><span class="s1">&#39;Error: no such file or directory &quot;&#39;</span> <span class="o">+</span> <span class="nx">srcFile</span> <span class="o">+</span> <span class="s1">&#39;&quot;.&#39;</span><span class="p">);</span>
-          <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">stats</span><span class="p">.</span><span class="nx">isFile</span><span class="p">())</span> <span class="k">return</span> <span class="nx">fileCallback</span><span class="p">(</span><span class="s1">&#39;Error: &quot;&#39;</span> <span class="o">+</span> <span class="nx">srcFile</span> <span class="o">+</span> <span class="s1">&#39;&quot; is not a file.&#39;</span><span class="p">);</span>
-          <span class="nx">fileCallback</span><span class="p">();</span>
-        <span class="p">});</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">checkFile</span><span class="p">(</span><span class="nx">srcFile</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">fileCallback</span><span class="p">);</span>
       <span class="p">};</span>
     <span class="p">});</span>
 
@@ -85,11 +83,36 @@
 
   <span class="nx">checkReadme</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
 
-    <span class="kd">var</span> <span class="nx">file</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">central</span><span class="p">.</span><span class="nx">rootDir</span><span class="p">,</span> <span class="s1">&#39;README.md&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">rel</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">central</span><span class="p">.</span><span class="nx">front</span><span class="p">.</span><span class="nx">readmeFile</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">file</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">central</span><span class="p">.</span><span class="nx">workingDir</span><span class="p">,</span> <span class="nx">rel</span><span class="p">);</span>
 
+    <span class="k">this</span><span class="p">.</span><span class="nx">checkFile</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+  <span class="p">},</span>
+
+  <span class="nx">checkIndexReadme</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">rel</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">central</span><span class="p">.</span><span class="nx">front</span><span class="p">.</span><span class="nx">indexReadmeFile</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">rel</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">file</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">central</span><span class="p">.</span><span class="nx">workingDir</span><span class="p">,</span> <span class="nx">rel</span><span class="p">);</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">checkFile</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+  <span class="p">},</span>
+
+  <span class="nx">checkFile</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">required</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">exists</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exists</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">exists</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">required</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">();</span>
+        <span class="k">else</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="s1">&#39;Error: no such file &#39;</span> <span class="o">+</span> <span class="nx">file</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">);</span>
+      <span class="p">}</span>
+      <span class="nx">self</span><span class="p">.</span><span class="nx">checkFileType</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">},</span>
+
+  <span class="nx">checkFileType</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">fs</span><span class="p">.</span><span class="nx">stat</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">stats</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="s1">&#39;Error: could not find README.md in current directory.&#39;</span><span class="p">);</span>
-      <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">stats</span><span class="p">.</span><span class="nx">isFile</span><span class="p">())</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="s1">&#39;Error: README.md is not a file.&#39;</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="s1">&#39;Error: could not read &#39;</span> <span class="o">+</span> <span class="nx">file</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">);</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">stats</span><span class="p">.</span><span class="nx">isFile</span><span class="p">())</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="s1">&#39;Error: &#39;</span> <span class="o">+</span> <span class="nx">file</span> <span class="o">+</span> <span class="s1">&#39; is not a file.&#39;</span><span class="p">);</span>
       <span class="nx">callback</span><span class="p">();</span>
     <span class="p">});</span>
   <span class="p">}</span>

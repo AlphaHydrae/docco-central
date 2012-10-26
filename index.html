@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>docco-central</title>
+    <title>v0.4.3 doc index</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" media="all" href="central.css" />
     <script type="text/javascript" src="jquery-1.8.0-min.js"></script>
@@ -13,8 +13,13 @@
       <table cellpadding="0" cellspacing="0">
         <tbody>
           <tr>
-            <th class="docs">
-              <h1>Index</h1>
+            <td class="docs">
+              
+                <h1>v0.4.3 doc index</h1>
+              
+              
+<p>Annotated source index generated from the project's source files and its <code>README.md</code>. This paragraph was taken from <code>INDEX.md</code>. Check out the readme on the right to find out how to customize your documentation.</p>
+              
               <div id="index">
                 <input type="text" class="search" placeholder="Search..." />
                 <ul>
@@ -33,18 +38,20 @@
                 
                   <li><a href="lib&#x2F;runner.html">lib&#x2F;runner.js</a></li>
                 
-                  <li><a href="lib&#x2F;utils.html">lib&#x2F;utils.js</a></li>
-                
                   <li><a href="lib&#x2F;sub&#x2F;sample.html">lib&#x2F;sub&#x2F;sample.js</a></li>
+                
+                  <li><a href="lib&#x2F;utils.html">lib&#x2F;utils.js</a></li>
                 
                 </ul>
                 <p class="empty" style="display:none;">No match found.</p>
               </div>
-            </th>
+            </td>
             <td class="readme">
 <h1 id="doccocentral">docco-central</h1>
 
-<p><strong><a href="http://jashkenas.github.com/docco/">Docco</a> documentation for whole projects.</strong></p>
+<p><strong><a href="http://jashkenas.github.com/docco/">Docco</a> 0.4.0 documentation for whole projects.</strong></p>
+
+<p>Check out <a href="http://alphahydrae.github.com/docco-central/">docco-central documenting itself</a>.</p>
 
 <h2 id="installation">Installation</h2>
 
@@ -65,12 +72,21 @@ docco-central lib/*.js
 
 <pre><code>Usage: docco-central [options] &lt;file&gt;...
 
-Options:
+GENERAL OPTIONS
+  -o, --output [path]      change the output directory ("docs" by default)
+  -q, --quiet              silence console logs
+  -h, --help               show usage information
+  -V, --version            show version number
 
-  -o, --output    change the output directory ("docs" by default)
-  -q, --quiet     silence console logs
-  -h, --help      show usage information
-  -V, --version   show version number
+DOCCO OPTIONS
+  -c, --css [file]       use a custom CSS file for Docco pages
+  -t, --template [file]  use a custom .jst template for Docco pages
+
+DOCCO CENTRAL OPTIONS
+  -r, --readme [file]       change the readme file ("README.md" by default)
+  -i, --indexReadme [file]  add content above the index (optional, "INDEX.md" by default)
+  --title [string]          change the title and window title ("Doc Index" by default)
+  --windowTitle [string]    change the window title (same as the title by default)
 </code></pre>
 
 <h2 id="licensemit">License (MIT)</h2>

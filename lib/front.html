@@ -19,9 +19,9 @@
       
         <a class="source" href="..&#x2F;lib&#x2F;runner.html">lib&#x2F;runner.js</a>
       
-        <a class="source" href="..&#x2F;lib&#x2F;utils.html">lib&#x2F;utils.js</a>
-      
         <a class="source" href="..&#x2F;lib&#x2F;sub&#x2F;sample.html">lib&#x2F;sub&#x2F;sample.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;utils.html">lib&#x2F;utils.js</a>
       
     </div>
   </div>
@@ -42,8 +42,8 @@
     <span class="k">this</span><span class="p">.</span><span class="nx">rootDir</span> <span class="o">=</span> <span class="nx">rootDir</span><span class="p">;</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">sourceFiles</span> <span class="o">=</span> <span class="nx">sourceFiles</span><span class="p">;</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">targetDir</span> <span class="o">=</span> <span class="nx">targetDir</span><span class="p">;</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">options</span> <span class="o">=</span> <span class="nx">options</span><span class="p">;</span>
 
+    <span class="k">this</span><span class="p">.</span><span class="nx">options</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isObject</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="o">?</span> <span class="nx">options</span> <span class="o">:</span> <span class="p">{};</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">resDir</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;res&#39;</span><span class="p">);</span>
   <span class="p">},</span>
 
@@ -56,40 +56,34 @@
 
   <span class="nx">copyPage</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
 
-    <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
-    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">resDir</span><span class="p">,</span> <span class="s1">&#39;template.html&#39;</span><span class="p">),</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
-
-      <span class="kd">var</span> <span class="nx">template</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">fillTemplate</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
-
-      <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">targetDir</span><span class="p">,</span> <span class="s1">&#39;index.html&#39;</span><span class="p">),</span> <span class="nx">template</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
-    <span class="p">});</span>
+    <span class="nx">async</span><span class="p">.</span><span class="nx">waterfall</span><span class="p">([</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">loadTemplate</span><span class="p">),</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">fillTemplate</span><span class="p">),</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">saveTemplate</span><span class="p">)</span>
+    <span class="p">],</span> <span class="nx">callback</span><span class="p">);</span>
   <span class="p">},</span>
 
   <span class="nx">getTitle</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span> <span class="o">||</span> <span class="k">typeof</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">title</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="s1">&#39;&lt;h1&gt;Index&lt;/h1&gt;&#39;</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">title</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="s1">&#39;&lt;h1&gt;&lt;%- title %&gt;&lt;/h1&gt;&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">title</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">title</span> <span class="p">});</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">title</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">title</span><span class="p">;</span>
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+      <span class="k">return</span> <span class="s1">&#39;Doc Index&#39;</span><span class="p">;</span>
     <span class="p">}</span>
   <span class="p">},</span>
 
-  <span class="nx">getReadme</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    
-    <span class="kd">var</span> <span class="nx">file</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">rootDir</span><span class="p">,</span> <span class="s1">&#39;README.md&#39;</span><span class="p">);</span>
-
-    <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">readme</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">);</span>
-
-    <span class="kd">var</span> <span class="nx">converter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">showdown</span><span class="p">.</span><span class="nx">converter</span><span class="p">();</span>
-    <span class="k">return</span> <span class="nx">converter</span><span class="p">.</span><span class="nx">makeHtml</span><span class="p">(</span><span class="nx">readme</span><span class="p">);</span>
+  <span class="nx">getWindowTitle</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">windowTitle</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">windowTitle</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">title</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">title</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="s1">&#39;Doc Index&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
   <span class="p">},</span>
 
   <span class="nx">getFiles</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">sourceFiles</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">sourceFile</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">docFile</span> <span class="o">=</span> <span class="nx">sourceFile</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\..*$/</span><span class="p">,</span> <span class="s1">&#39;.html&#39;</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">docFile</span> <span class="o">=</span> <span class="nx">sourceFile</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\.[^\.]*$/</span><span class="p">,</span> <span class="s1">&#39;.html&#39;</span><span class="p">);</span>
       <span class="k">return</span> <span class="p">{</span>
         <span class="nx">srcFile</span><span class="o">:</span> <span class="nx">sourceFile</span><span class="p">,</span>
         <span class="nx">srcDirname</span><span class="o">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">dirname</span><span class="p">(</span><span class="nx">sourceFile</span><span class="p">),</span>
@@ -101,15 +95,47 @@
     <span class="p">});</span>
   <span class="p">},</span>
 
-  <span class="nx">fillTemplate</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">raw</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">loadTemplate</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="nx">async</span><span class="p">.</span><span class="nx">parallel</span><span class="p">({</span>
+      <span class="nx">template</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">loadFile</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">templateFile</span><span class="p">()),</span>
+      <span class="nx">readme</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">loadMarkdownFile</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">readmeFile</span><span class="p">()),</span>
+      <span class="nx">indexReadme</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">loadMarkdownFile</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">indexReadmeFile</span><span class="p">())</span>
+    <span class="p">},</span> <span class="nx">callback</span><span class="p">);</span>
+  <span class="p">},</span>
+
+  <span class="nx">loadFile</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">file</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">();</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
+  <span class="p">},</span>
+
+  <span class="nx">loadMarkdownFile</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">file</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">();</span>
+
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">exists</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">exists</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">exists</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">();</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="kc">undefined</span><span class="p">,</span> <span class="k">new</span> <span class="nx">showdown</span><span class="p">.</span><span class="nx">converter</span><span class="p">().</span><span class="nx">makeHtml</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+      <span class="p">});</span>
+    <span class="p">});</span>
+  <span class="p">},</span>
+
+  <span class="nx">fillTemplate</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
       <span class="nx">title</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">getTitle</span><span class="p">(),</span>
+      <span class="nx">windowTitle</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">getWindowTitle</span><span class="p">(),</span>
       <span class="nx">files</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">getFiles</span><span class="p">(),</span>
-      <span class="nx">readme</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">getReadme</span><span class="p">()</span>
+      <span class="nx">readme</span><span class="o">:</span> <span class="nx">results</span><span class="p">.</span><span class="nx">readme</span><span class="p">,</span>
+      <span class="nx">indexReadme</span><span class="o">:</span> <span class="nx">results</span><span class="p">.</span><span class="nx">indexReadme</span>
     <span class="p">};</span>
 
-    <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="nx">raw</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="kc">undefined</span><span class="p">,</span> <span class="nx">_</span><span class="p">.</span><span class="nx">template</span><span class="p">(</span><span class="nx">results</span><span class="p">.</span><span class="nx">template</span><span class="p">,</span> <span class="nx">data</span><span class="p">));</span>
+  <span class="p">},</span>
+
+  <span class="nx">saveTemplate</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">targetDir</span><span class="p">,</span> <span class="s1">&#39;index.html&#39;</span><span class="p">),</span> <span class="nx">data</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span>
   <span class="p">},</span>
 
   <span class="nx">copyAssets</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
@@ -132,6 +158,18 @@
 
   <span class="nx">copyAsset</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">utils</span><span class="p">.</span><span class="nx">copyFile</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">resDir</span><span class="p">,</span> <span class="nx">file</span><span class="p">),</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">targetDir</span><span class="p">,</span> <span class="nx">file</span><span class="p">),</span> <span class="nx">callback</span><span class="p">);</span>
+  <span class="p">},</span>
+
+  <span class="nx">templateFile</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">resDir</span><span class="p">,</span> <span class="s1">&#39;template.html&#39;</span><span class="p">);</span>
+  <span class="p">},</span>
+
+  <span class="nx">readmeFile</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">readme</span> <span class="o">||</span> <span class="s1">&#39;README.md&#39;</span><span class="p">;</span>
+  <span class="p">},</span>
+
+  <span class="nx">indexReadmeFile</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">indexReadme</span> <span class="o">||</span> <span class="s1">&#39;INDEX.md&#39;</span><span class="p">;</span>
   <span class="p">}</span>
 <span class="p">});</span>
 

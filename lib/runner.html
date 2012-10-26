@@ -19,9 +19,9 @@
       
         <a class="source" href="..&#x2F;lib&#x2F;runner.html">lib&#x2F;runner.js</a>
       
-        <a class="source" href="..&#x2F;lib&#x2F;utils.html">lib&#x2F;utils.js</a>
-      
         <a class="source" href="..&#x2F;lib&#x2F;sub&#x2F;sample.html">lib&#x2F;sub&#x2F;sample.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;utils.html">lib&#x2F;utils.js</a>
       
     </div>
   </div>
@@ -41,34 +41,65 @@
   <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="k">this</span><span class="p">.</span><span class="nx">program</span> <span class="o">=</span> <span class="nx">commander</span>
-      <span class="p">.</span><span class="nx">version</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">getVersion</span><span class="p">())</span>
+      <span class="p">.</span><span class="nx">version</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">version</span><span class="p">())</span>
       <span class="p">.</span><span class="nx">usage</span><span class="p">(</span><span class="s1">&#39;[options] &lt;file&gt;...&#39;</span><span class="p">)</span>
-      <span class="p">.</span><span class="nx">option</span><span class="p">(</span><span class="s1">&#39;-o, --output &lt;path&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;change the output directory (&quot;docs&quot; by default)&#39;</span><span class="p">,</span> <span class="nb">String</span><span class="p">,</span> <span class="s1">&#39;docs&#39;</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">option</span><span class="p">(</span><span class="s1">&#39;-c, --config &lt;path&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;take options from the specified config file (&quot;./.docco-central.json&quot; by default)&#39;</span><span class="p">,</span> <span class="nb">String</span><span class="p">,</span> <span class="s1">&#39;.docco-central.json&#39;</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">option</span><span class="p">(</span><span class="s1">&#39;-o, --output &lt;path&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;change the output directory (&quot;docs&quot; by default)&#39;</span><span class="p">,</span> <span class="nb">String</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">option</span><span class="p">(</span><span class="s1">&#39;-s, --css &lt;file&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;use a custom CSS file for Docco pages&#39;</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">option</span><span class="p">(</span><span class="s1">&#39;-t, --template &lt;file&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;use a custom .jst template for Docco pages&#39;</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">option</span><span class="p">(</span><span class="s1">&#39;-r, --readme &lt;file&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;change the readme file (&quot;README.md&quot; by default)&#39;</span><span class="p">,</span> <span class="nb">String</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">option</span><span class="p">(</span><span class="s1">&#39;-i, --indexReadme &lt;file&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;add content above the index (optional, &quot;INDEX.md&quot; by default)&#39;</span><span class="p">,</span> <span class="nb">String</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">option</span><span class="p">(</span><span class="s1">&#39;--title &lt;string&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;change the title and window title (&quot;Doc Index&quot; by default)&#39;</span><span class="p">,</span> <span class="nb">String</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">option</span><span class="p">(</span><span class="s1">&#39;--windowTitle &lt;string&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;change the window title (same as the title by default)&#39;</span><span class="p">,</span> <span class="nb">String</span><span class="p">)</span>
       <span class="p">.</span><span class="nx">option</span><span class="p">(</span><span class="s1">&#39;-q, --quiet&#39;</span><span class="p">,</span> <span class="s1">&#39;silence console logs&#39;</span><span class="p">)</span>
       <span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">);</span>
+  <span class="p">},</span>
 
-    <span class="k">this</span><span class="p">.</span><span class="nx">rootDir</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">srcFiles</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">uniq</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">flatten</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">program</span><span class="p">.</span><span class="nx">args</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">files</span> <span class="o">=</span> <span class="nx">glob</span><span class="p">.</span><span class="nx">sync</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
-      <span class="k">return</span> <span class="nx">files</span><span class="p">.</span><span class="nx">length</span> <span class="o">?</span> <span class="nx">files</span> <span class="o">:</span> <span class="p">[</span> <span class="nx">file</span> <span class="p">];</span>
-    <span class="p">})));</span>
+  <span class="nx">defaultOptions</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="nx">output</span> <span class="o">:</span> <span class="s1">&#39;docs&#39;</span>
   <span class="p">},</span>
 
   <span class="nx">run</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">new</span> <span class="nx">Central</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">rootDir</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">srcFiles</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">program</span><span class="p">.</span><span class="nx">output</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">getOptions</span><span class="p">()).</span><span class="nx">run</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">workingDir</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">srcFiles</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">program</span><span class="p">.</span><span class="nx">args</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">pick</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">program</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="s1">&#39;css&#39;</span><span class="p">,</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="s1">&#39;readme&#39;</span><span class="p">,</span> <span class="s1">&#39;indexReadme&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;windowTitle&#39;</span><span class="p">,</span> <span class="s1">&#39;quiet&#39;</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">program</span><span class="p">.</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">file</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">workingDir</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">program</span><span class="p">.</span><span class="nx">config</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">exists</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">existsSync</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">exists</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
+        <span class="nx">options</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">config</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">files</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">srcFiles</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">srcFiles</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">files</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="nx">options</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">clone</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">defaultOptions</span><span class="p">),</span> <span class="nx">options</span><span class="p">);</span>
+
+    <span class="kd">var</span> <span class="nx">targetDir</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">output</span><span class="p">;</span>
+
+    <span class="nx">srcFiles</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">uniq</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">flatten</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">srcFiles</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">files</span> <span class="o">=</span> <span class="nx">glob</span><span class="p">.</span><span class="nx">sync</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
+      <span class="k">return</span> <span class="nx">files</span><span class="p">.</span><span class="nx">length</span> <span class="o">?</span> <span class="nx">files</span> <span class="o">:</span> <span class="p">[</span> <span class="nx">file</span> <span class="p">];</span>
+    <span class="p">})));</span>
+
+    <span class="k">new</span> <span class="nx">Central</span><span class="p">(</span><span class="nx">workingDir</span><span class="p">,</span> <span class="nx">srcFiles</span><span class="p">,</span> <span class="nx">targetDir</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">buildOptions</span><span class="p">(</span><span class="nx">options</span><span class="p">)).</span><span class="nx">run</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
     <span class="p">});</span>
   <span class="p">},</span>
 
-  <span class="nx">getOptions</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">buildOptions</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">{</span>
-      <span class="nx">logger</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">quiet</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">program</span><span class="p">.</span><span class="nx">quiet</span>
-      <span class="p">}</span>
+      <span class="nx">front</span><span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">pick</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="s1">&#39;readme&#39;</span><span class="p">,</span> <span class="s1">&#39;indexReadme&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;windowTitle&#39;</span><span class="p">),</span>
+      <span class="nx">docco</span><span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">pick</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="s1">&#39;css&#39;</span><span class="p">,</span> <span class="s1">&#39;template&#39;</span><span class="p">),</span>
+      <span class="nx">logger</span><span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">pick</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="s1">&#39;quiet&#39;</span><span class="p">)</span>
     <span class="p">};</span>
   <span class="p">},</span>
 
-  <span class="nx">getVersion</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">version</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nx">pkg</span><span class="p">.</span><span class="nx">version</span><span class="p">;</span>
   <span class="p">}</span>
 <span class="p">});</span>

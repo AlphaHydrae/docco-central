@@ -19,9 +19,9 @@
       
         <a class="source" href="..&#x2F;lib&#x2F;runner.html">lib&#x2F;runner.js</a>
       
-        <a class="source" href="..&#x2F;lib&#x2F;utils.html">lib&#x2F;utils.js</a>
-      
         <a class="source" href="..&#x2F;lib&#x2F;sub&#x2F;sample.html">lib&#x2F;sub&#x2F;sample.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;utils.html">lib&#x2F;utils.js</a>
       
     </div>
   </div>
@@ -53,7 +53,7 @@
 
   <span class="nx">docFile</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">srcFile</span><span class="p">,</span> <span class="nx">fromSrcFile</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">depth</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">depth</span><span class="p">(</span><span class="nx">fromSrcFile</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">docFile</span> <span class="o">=</span> <span class="nx">srcFile</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\..*$/</span><span class="p">,</span> <span class="s1">&#39;.html&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">docFile</span> <span class="o">=</span> <span class="nx">srcFile</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\.[^\.]*$/</span><span class="p">,</span> <span class="s1">&#39;.html&#39;</span><span class="p">);</span>
     <span class="kd">var</span> <span class="nx">back</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">(</span><span class="nx">depth</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">);</span>
     <span class="k">return</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">back</span><span class="p">,</span> <span class="nx">docFile</span><span class="p">);</span>
   <span class="p">},</span>

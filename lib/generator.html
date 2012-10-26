@@ -19,14 +19,15 @@
       
         <a class="source" href="..&#x2F;lib&#x2F;runner.html">lib&#x2F;runner.js</a>
       
-        <a class="source" href="..&#x2F;lib&#x2F;utils.html">lib&#x2F;utils.js</a>
-      
         <a class="source" href="..&#x2F;lib&#x2F;sub&#x2F;sample.html">lib&#x2F;sub&#x2F;sample.js</a>
+      
+        <a class="source" href="..&#x2F;lib&#x2F;utils.html">lib&#x2F;utils.js</a>
       
     </div>
   </div>
 </div>
-<table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               generator.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>... is missing some documentation.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">async</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;async&#39;</span><span class="p">),</span>
+<table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               generator.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>... is missing some documentation.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;underscore&#39;</span><span class="p">),</span>
+    <span class="nx">async</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;async&#39;</span><span class="p">),</span>
     <span class="nx">Class</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;clah&#39;</span><span class="p">),</span>
     <span class="nx">docco</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;docco&#39;</span><span class="p">),</span>
     <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">),</span>
@@ -35,20 +36,21 @@
 
 <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">Class</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
 
-  <span class="nx">init</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">workingDir</span><span class="p">,</span> <span class="nx">srcFile</span><span class="p">,</span> <span class="nx">targetDir</span><span class="p">,</span> <span class="nx">jumper</span><span class="p">,</span> <span class="nx">logger</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">init</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">workingDir</span><span class="p">,</span> <span class="nx">srcFile</span><span class="p">,</span> <span class="nx">targetDir</span><span class="p">,</span> <span class="nx">jumper</span><span class="p">,</span> <span class="nx">logger</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="k">this</span><span class="p">.</span><span class="nx">workingDir</span> <span class="o">=</span> <span class="nx">workingDir</span><span class="p">;</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">srcFile</span> <span class="o">=</span> <span class="nx">srcFile</span><span class="p">;</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">targetDir</span> <span class="o">=</span> <span class="nx">targetDir</span><span class="p">;</span>
-
     <span class="k">this</span><span class="p">.</span><span class="nx">jumper</span> <span class="o">=</span> <span class="nx">jumper</span><span class="p">;</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">logger</span> <span class="o">=</span> <span class="nx">logger</span><span class="p">;</span>
 
-    <span class="k">this</span><span class="p">.</span><span class="nx">docDir</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">targetDir</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">dirname</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">srcFile</span><span class="p">));</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">options</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isObject</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="o">?</span> <span class="nx">options</span> <span class="o">:</span> <span class="p">{};</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Each documentation file is moved to the same relative path as its
+source file. That way it reflects the original project structure.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">this</span><span class="p">.</span><span class="nx">docDir</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">targetDir</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">dirname</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">srcFile</span><span class="p">));</span>
   <span class="p">},</span>
 
-  <span class="nx">run</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Each documentation file is moved to the same relative path as its
-source file. That way it reflects the original project structure.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">utils</span><span class="p">.</span><span class="nx">mkdirpSync</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">docDir</span><span class="p">);</span>
+  <span class="nx">run</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="nx">utils</span><span class="p">.</span><span class="nx">mkdirpSync</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">docDir</span><span class="p">);</span>
 
     <span class="nx">async</span><span class="p">.</span><span class="nx">waterfall</span><span class="p">([</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">buildMenu</span><span class="p">),</span>
@@ -63,7 +65,7 @@ source file. That way it reflects the original project structure.</p>           
   <span class="p">},</span>
 
   <span class="nb">document</span> <span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">menu</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">docco</span><span class="p">.</span><span class="nb">document</span><span class="p">([</span> <span class="k">this</span><span class="p">.</span><span class="nx">srcFile</span> <span class="p">],</span> <span class="p">{</span> <span class="nx">output</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">docDir</span> <span class="p">},</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">docco</span><span class="p">.</span><span class="nb">document</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">doccoFiles</span><span class="p">(),</span> <span class="k">this</span><span class="p">.</span><span class="nx">doccoOptions</span><span class="p">(),</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
       <span class="nx">callback</span><span class="p">(</span><span class="kc">undefined</span><span class="p">,</span> <span class="nx">menu</span><span class="p">);</span>
     <span class="p">});</span>
   <span class="p">},</span>
@@ -84,7 +86,23 @@ source file. That way it reflects the original project structure.</p>           
   <span class="p">},</span>
 
   <span class="nx">targetFile</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">docDir</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">basename</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">srcFile</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\..*$/</span><span class="p">,</span> <span class="s1">&#39;.html&#39;</span><span class="p">));</span>
+    <span class="k">return</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">docDir</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">basename</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">srcFile</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\.[^\.]*$/</span><span class="p">,</span> <span class="s1">&#39;.html&#39;</span><span class="p">));</span>
+  <span class="p">},</span>
+
+  <span class="nx">doccoFiles</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span> <span class="k">this</span><span class="p">.</span><span class="nx">srcFile</span> <span class="p">];</span>
+  <span class="p">},</span>
+
+  <span class="nx">doccoOptions</span> <span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span>  <span class="p">{</span>
+      <span class="nx">output</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">docDir</span>
+    <span class="p">};</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">css</span><span class="p">)</span> <span class="nx">options</span><span class="p">.</span><span class="nx">css</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">css</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">template</span><span class="p">)</span> <span class="nx">options</span><span class="p">.</span><span class="nx">template</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">template</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="nx">options</span><span class="p">;</span>
   <span class="p">}</span>
 <span class="p">});</span>
 
