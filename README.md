@@ -1,6 +1,8 @@
 # docco-central
 
-**[Docco](http://jashkenas.github.com/docco/) 0.4.0 documentation for whole projects.**
+**[Docco](http://jashkenas.github.com/docco/) 0.5.0 documentation for whole projects.**
+
+[![NPM version](https://badge.fury.io/js/docco-central.png)](http://badge.fury.io/js/docco-central)
 
 Check out [docco-central documenting itself](http://alphahydrae.github.com/docco-central/).
 
