@@ -17,6 +17,7 @@
   "bin": {
     "docco-central": "./bin/docco-central"
   },
+  "main": "./lib",
   "dependencies": {
     "docco": "~0.5.0",
     "showdown": "~0.2.0",
@@ -30,8 +31,12 @@
     "which": "~1.0.5"
   },
   "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-jasmine-node": "~0.1.0",
     "jshint": "~0.8.0",
-    "jasmine-node": "~1.0.26"
+    "jasmine-node": "~1.10.2"
   },
   "licenses": [
     {

@@ -1,9 +1,10 @@
 source $HOME/.screenrc
 
-screen -t vim 0 $EDITOR -c GG
+screen -t vim 0
+stuff "\${PROJECT_EDITOR-\$EDITOR}\012"
 screen -t zsh 1
 screen -t bin 2
 stuff "./bin/docco-central"
 screen -t spec 3
-stuff "rake spec"
+stuff "grunt watch"
 select vim
