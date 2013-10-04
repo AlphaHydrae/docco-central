@@ -17,6 +17,10 @@
   "bin": {
     "docco-central": "./bin/docco-central"
   },
+  "scripts": {
+    "start": "node bin/docco-central",
+    "test": "grunt"
+  },
   "main": "./lib",
   "dependencies": {
     "docco": "~0.5.0",
